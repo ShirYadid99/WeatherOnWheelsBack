@@ -66,7 +66,7 @@ namespace WeatherOnWheels.Services
             }
             catch (Exception)
             {
-                // אפשר להוסיף כאן לוגים אם רוצים
+                Console.WriteLine($"Unexpected error occurred: {ex.Message}");
             }
 
             return null;
