@@ -93,7 +93,7 @@ namespace WeatherOnWheels.Services
             }
             catch (Exception)
             {
-                Console.WriteLine($"Unexpected error occurred: {ex.Message}");
+                Console.WriteLine($"Unexpected error occurred");
             }
 
             return null;
