@@ -7,11 +7,19 @@ using WeatherOnWheels.Models;
 
 namespace WeatherOnWheels.Services
 {
+
+    /// <summary>
+    /// Service for managing places, including CRUD operations and geocoding addresses to coordinates.
+    /// </summary>
     public class PlaceService
     {
         private readonly IMongoCollection<Place> _placesCollection;
         private readonly HttpClient _httpClient;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlaceService"/> class.
+        /// </summary>
+        /// <param name="database">MongoDB database instance to access the Places collection.</param>
         public PlaceService(IMongoDatabase database)
         {
             _placesCollection = database.GetCollection<Place>("places");
@@ -20,16 +28,29 @@ namespace WeatherOnWheels.Services
 
         }
 
+        /// <summary>
+        /// Retrieves all places from the database.
+        /// </summary>
+        /// <returns>List of all places.</returns>
         public async Task<List<Place>> GetPlacesAsync()
         {
             return await _placesCollection.Find(_ => true).ToListAsync();
         }
 
+        /// <summary>
+        /// Retrieves a specific place by its ID.- not used
+        /// </summary>
+        /// <param name="id">The ID of the place.</param>
+        /// <returns>The found place, or null if not found.</returns>
         public async Task<Place> GetPlaceByIdAsync(string id)
         {
             return await _placesCollection.Find(place => place.Id == id).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Creates a new place. If coordinates are missing but an address is provided, it attempts to fetch the coordinates using Nominatim.
+        /// </summary>
+        /// <param name="place">The place to create.</param>
         public async Task CreatePlaceAsync(Place place)
         {
             if ((place.Latitude == 0 || place.Longitude == 0) && !string.IsNullOrWhiteSpace(place.Address))
@@ -44,6 +65,12 @@ namespace WeatherOnWheels.Services
 
             await _placesCollection.InsertOneAsync(place);
         }
+
+        /// <summary>
+        /// Uses Nominatim (OpenStreetMap) to get latitude and longitude from an address.
+        /// </summary>
+        /// <param name="address">The address to geocode.</param>
+        /// <returns>Tuple of latitude and longitude if found; otherwise, null.</returns>
 
         private async Task<(double lat, double lon)?> GetCoordinatesFromAddress(string address)
         {

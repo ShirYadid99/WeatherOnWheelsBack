@@ -4,6 +4,10 @@ using System;
 
 namespace WeatherOnWheels.Models
 {
+    /// <summary>
+    /// Represents a place entity stored in the MongoDB database,
+    /// including geolocation and creation time information.
+    /// </summary>
     public class Place
     {
         [BsonId]
