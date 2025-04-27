@@ -28,13 +28,13 @@ This is the C# (.NET) backend for the "Weather on Wheels" project.
 
 3. Run the project
 
-##API Endpoints
+## API Endpoints
 
 POST /api/place - Create a new place
 
 GET /api/place - Retrieve all places
 
-##Important Notes
+## Important Notes
 The backend will automatically fetch coordinates based on the given address using Nominatim API.
 
 Ensure MongoDB is running.
